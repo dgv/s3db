@@ -1,3 +1,5 @@
+//go:build linux
+
 package auto
 
 // #cgo CFLAGS: -DSQLITE_CORE
