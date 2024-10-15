@@ -1,4 +1,4 @@
-module github.com/jrhy/s3db
+module github.com/dgv/s3db
 
 go 1.22.0
 
