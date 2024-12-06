@@ -4,22 +4,24 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: Release
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-go@v4
+    - name: Install sqlite headers and cross-compilation packages
+      run: sudo apt-get install -y libsqlite3-dev qemu-user libc6-armhf-cross libc6-arm64-cross libc6-amd64-cross 
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v5
       with:
-        go-version: ^1.20.3
+        go-version: ^1.22.0
     - uses: goto-bus-stop/setup-zig@v2
     - run: ./release.sh
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: release
         path: release/*
     - name: Tag new releases
       id: tag
-      uses: anothrNick/github-tag-action@1.61.0 # Don't use @master unless you're happy to test the latest version
+      uses: anothrNick/github-tag-action@1.71.0 # Don't use @master unless you're happy to test the latest version
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEFAULT_BUMP: patch
